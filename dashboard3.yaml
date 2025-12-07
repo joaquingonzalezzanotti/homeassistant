@@ -1,0 +1,371 @@
+title: Cuarto
+icon: mdi:bed
+type: sections
+path: cuarto
+max_columns: 3
+header:
+  card:
+    type: markdown
+    content: >-
+      {% set h = now().hour %} {% if h < 12 %} ## Buen día, Joaquín {% elif h <
+      19 %} ## Buenas tardes, Joaquín {% else %} ## Buenas noches, Joaquín {%
+      endif %}
+    text_only: true
+  layout: center
+  badges_position: bottom
+  badges_wrap: scroll
+badges:
+  - type: entity
+    show_name: true
+    show_state: true
+    show_icon: true
+    entity: light.luz_cuarto_interruptor_1
+    name: Luz techo
+    show_entity_picture: true
+    tap_action:
+      action: toggle
+  - type: entity
+    show_name: true
+    show_state: true
+    show_icon: true
+    entity: light.luz_escritorio
+  - type: entity
+    entity: weather.forecast_casa
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: sensor.time
+  - type: entity
+    show_name: false
+    show_state: true
+    show_icon: true
+    entity: person.joaquin
+    color: green
+    show_entity_picture: true
+sections:
+  - type: grid
+    columns: 2
+    column_span: 2
+    cards:
+      - type: heading
+        heading: Quick SetUp
+        heading_style: title
+        icon: mdi:cog
+      - type: custom:bubble-card
+        card_type: media-player
+        entity: media_player.spotify
+        force_icon: false
+        show_last_changed: false
+        show_state: false
+        show_attribute: true
+        attribute: source_list
+        rows: "1.6"
+        cover_background: true
+        grid_options:
+          columns: full
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: light.luz_cuarto_interruptor_1
+        name: Luz techo
+        icon: mdi:ceiling-light
+        show_state: true
+        sub_button:
+          - entity: light.luz_cuarto_interruptor_1
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: script.blue
+        name: Luces LED
+        icon: mdi:led-strip-variant
+        sub_button:
+          - entity: script.off
+            name: "OFF"
+            icon: mdi:power-standby
+            show_name: true
+            tap_action:
+              action: toggle
+          - tap_action:
+              action: toggle
+            icon: mdi:radiobox-marked
+          - entity: script.luces_led_red
+            name: RED
+            icon: mdi:format-color-fill
+            show_name: true
+            tap_action:
+              action: toggle
+          - entity: script.luces_led_blue_duplicar
+            name: GREEN
+            icon: mdi:format-color-fill
+            show_state: false
+            show_name: true
+            tap_action:
+              action: toggle
+          - entity: script.blue
+            name: BLUE
+            icon: mdi:format-color-fill
+            show_name: true
+            tap_action:
+              action: toggle
+        tap_action:
+          action: toggle
+        hold_action:
+          action: none
+        button_action: {}
+        modules:
+          - sub_button_wheel
+        sub_button_wheel:
+          - wheel_opener: "2"
+            wheel_buttons:
+              "0":
+                sub_button: "3"
+              "1":
+                sub_button: "4"
+              "2":
+                sub_button: "5"
+            layout_options:
+              wheel_layout: even-circle
+            animation_options:
+              wheel_animation: instant
+            close_on_sub_button_click: true
+      - type: custom:bubble-card
+        card_type: button
+        button_type: slider
+        entity: light.luz_escritorio
+        name: LED escritorio
+        icon: mdi:monitor-shimmer
+        show_state: true
+        modules: []
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        entity: scene.cuarto_modo_estudio
+        name: Modo estudio
+        icon: mdi:desk
+        button_action:
+          tap_action:
+            action: toggle
+      - type: custom:bubble-card
+        card_type: button
+        button_type: name
+        entity: scene.cuarto_modo_relax
+        name: Modo relax
+        icon: mdi:white-balance-iridescent
+        button_action:
+          tap_action:
+            action: toggle
+      - type: custom:bubble-card
+        card_type: button
+        button_type: state
+        entity: button.wake_on_lan_b4_2e_99_ec_90_51
+        tap_action:
+          action: toggle
+        sub_button:
+          - entity: button.wake_on_lan_b4_2e_99_ec_90_51
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: script.ac_24c
+        sub_button:
+          - entity: script.ac_off
+            icon: mdi:power
+            show_name: false
+            show_last_changed: false
+            show_attribute: false
+            show_last_updated: false
+            tap_action:
+              action: toggle
+          - entity: script.ac_dry
+            tap_action:
+              action: toggle
+          - icon: mdi:selection-ellipse-arrow-inside
+        tap_action:
+          action: toggle
+        modules:
+          - sub_button_wheel
+        sub_button_wheel:
+          - layout_options:
+              wheel_layout: smart-adaptive
+            animation_options:
+              wheel_animation: staggered-scale
+            wheel_buttons:
+              "0":
+                sub_button: "2"
+                close_on_click: true
+              "1":
+                sub_button: "4"
+                close_on_click: true
+              "2":
+                sub_button: "5"
+            close_on_sub_button_click: false
+            wheel_opener: "3"
+        animated_icon:
+          mode: fan
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: script.tele_on_off
+        name: TV
+        icon: mdi:power
+        button_action:
+          tap_action:
+            action: toggle
+          hold_action:
+            action: navigate
+            navigation_path: "#tv_apps"
+        sub_button:
+          - entity: script.tele_source
+            name: SRC
+            icon: mdi:open-source-initiative
+            show_name: true
+            show_state: false
+            tap_action:
+              action: toggle
+          - entity: script.tele_home
+            icon: mdi:home
+            tap_action:
+              action: toggle
+          - entity: script.tele_mute
+            icon: mdi:volume-mute
+            tap_action:
+              action: toggle
+        rows: 1
+        tap_action:
+          action: toggle
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: "#tv_apps"
+            name: Apps TV
+            icon: mdi:television
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            name: Netflix
+            icon: mdi:netflix
+            entity: script.tele_netflix
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.tele_netflix
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            name: YouTube
+            icon: mdi:youtube
+            entity: script.tele_youtube
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.tele_youtube
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            name: Prime Video
+            icon: mdi:movie-open-play-outline
+            entity: script.tele_prime
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.tele_prime
+  - type: grid
+    columns: 2
+    column_span: 1
+    cards:
+      - type: heading
+        heading_style: title
+        heading: In a Glance
+        icon: mdi:view-dashboard
+      - type: custom:bubble-card
+        card_type: calendar
+        event_action:
+          tap_action:
+            action: more-info
+          double_tap_action:
+            action: none
+          hold_action:
+            action: none
+        entities:
+          - entity: calendar.turnos_medicos
+            color: yellow
+          - entity: calendar.joaquingzzz79_gmail_com
+            color: light-blue
+          - entity: calendar.holidays_in_argentina
+            color: light-grey
+        show_end: true
+        show_progress: true
+        show_place: true
+        rows: "2.5"
+      - type: custom:bubble-card
+        card_type: button
+        button_type: state
+        entity: sensor.sensor_de_humedad_temperatura
+        name: Temperatura
+        icon: mdi:thermometer
+        show_state: true
+      - type: custom:bubble-card
+        card_type: button
+        button_type: state
+        entity: sensor.sensor_de_humedad_humedad
+        name: Humedad
+        icon: mdi:water-percent
+        show_state: true
+      - type: custom:bubble-card
+        card_type: button
+        button_type: state
+        entity: binary_sensor.sensor_wifi_puerta
+        name: Puerta Cuarto
+        icon: mdi:door-open
+        show_state: true
+  - type: grid
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: button
+            button_type: name
+            name: AC 24C
+            icon: mdi:air-conditioner
+            entity: script.ac_24c
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.ac_24c
+            auto_order: false
+            show_name: true
+          - type: custom:bubble-card
+            card_type: button
+            button_type: name
+            name: DRY
+            icon: mdi:air-humidifier
+            entity: script.ac_dry
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.ac_dry
+          - type: custom:bubble-card
+            card_type: button
+            button_type: name
+            name: "OFF"
+            icon: mdi:power
+            entity: script.ac_off
+            button_action:
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                target:
+                  entity_id: script.ac_off
+    column_span: 2
+cards: []
